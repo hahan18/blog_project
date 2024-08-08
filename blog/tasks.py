@@ -18,5 +18,4 @@ def send_auto_reply(comment_id):
             reply_content = f"Auto-reply to comment: {comment.content}"
             Comment.objects.create(post=post, user=post.user, content=reply_content)
     except Comment.DoesNotExist:
-        # Handle case where comment does not exist
         pass

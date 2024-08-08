@@ -2,18 +2,22 @@
 
 ## Description
 
-Unified API serves as a centralized platform to manage blog posts and comments efficiently while offering comprehensive user registration and authentication functionalities. This Django-based application simplifies handling blog interactions and user management with robust features and secure practices.
+The Unified API is a centralized platform designed to manage blog posts and comments efficiently while offering
+comprehensive user registration and authentication functionalities. This Django-based application simplifies handling
+blog interactions and user management with robust features and secure practices using Django Ninja for API creation.
 
 ## Key Features
 
-- **User Registration and Authentication**: Utilizes Django's robust user management framework enhanced with JWT for secure token handling.
-- **Blog Management**: Enables users to create, update, and delete blog posts and manage comments.
+- **User Registration and Authentication**: Utilizes Django's robust user management framework enhanced with JWT for
+  secure token handling.
+- **Blog Management**: Enables users to create and manage comments on blog posts.
 - **Comment Analytics**: Provides daily breakdowns of comments to assess user engagement and content interaction.
-- **Asynchronous Task Processing**: Leverages Celery with Redis for handling background tasks such as sending notifications or processing data asynchronously.
+- **Asynchronous Task Processing**: Leverages Celery with Redis for handling background tasks such as sending
+  notifications or processing data asynchronously.
 
 ## Technology Stack
 
-- **Django & Django REST Framework**: For constructing a secure and scalable backend.
+- **Django & Django Ninja**: For constructing a secure and scalable backend.
 - **PostgreSQL**: As the primary data storage solution.
 - **Docker & Docker Compose**: For containerization and easy deployment.
 - **Celery & Redis**: For managing asynchronous tasks and message brokering.
@@ -31,8 +35,8 @@ Ensure you have Docker and Docker Compose installed on your machine. You can dow
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourrepository/unified-api.git
-   cd unified-api
+   git clone https://github.com/hahan18/blog_project.git  
+   cd blog_project
    ```
 
 2. **Start the application using Docker Compose:**
@@ -59,6 +63,7 @@ Ensure you have Docker and Docker Compose installed on your machine. You can dow
 ## Running Tests
 
 Execute automated tests with coverage by running:
+
 ```bash
 docker-compose exec web coverage run -m pytest
 docker-compose exec web coverage report -m
@@ -68,6 +73,3 @@ docker-compose exec web coverage report -m
 
 - **Oleksandr Khakhanovskyi** - "Blog project"
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

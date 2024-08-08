@@ -46,7 +46,6 @@ def comment_data():
 
 @pytest.mark.django_db
 class TestBlogAPI:
-
     def test_create_post(self, auth_client, post_data):
         url = '/api/blog/posts'
         response = auth_client.post(url, post_data, content_type='application/json')

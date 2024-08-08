@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-
+from datetime import datetime
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from ninja import Router
@@ -45,9 +44,7 @@ def get_posts(request):
 @router.post("/posts/{post_id}/comments", response={200: dict, 404: dict})
 def add_comment(request, post_id: int, payload: CommentSchema):
     post = get_object_or_404(Post, id=post_id)
-    print(f"Moderating content: {payload.content}")
     if moderate_content(payload.content):
-        print("Content flagged as inappropriate.")
         Comment.objects.create(post=post, user=request.user, content=payload.content, is_blocked=True)
         return 200, {"success": False, "error": "Comment is inappropriate and has been blocked"}
 
@@ -71,7 +68,6 @@ def get_comments_daily_breakdown(request, date_from: str, date_to: str):
     except ValueError:
         return 400, {"error": "Invalid date format"}
 
-    # Use aggregation directly in the query
     comments_stats = Comment.objects.filter(
         created_at__date__range=(date_from, date_to)
     ).values('created_at__date').annotate(

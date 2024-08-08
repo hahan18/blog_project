@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from ninja_jwt.exceptions import TokenError, InvalidToken
-
 from .schemas import RegisterSchema, LoginSchema
 from .auth import create_jwt
 from ninja_jwt.tokens import RefreshToken
@@ -37,7 +36,7 @@ def refresh_token(request):
         # Create a new access token
         new_access_token = str(refresh.access_token)
 
-        # Optionally issue a new refresh token (token rotation)
+        # Refresh token rotation
         new_refresh_token = str(refresh)
 
         return 200, {"access": new_access_token, "refresh": str(new_refresh_token)}

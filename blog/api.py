@@ -6,8 +6,7 @@ api = NinjaAPI(
     title="Blog Management System",
     description=(
         "This API allows users to manage blog posts and comments. "
-        "Create, retrieve, and comment on blog posts with ease. "
-        "Enhance your blogging experience with our streamlined API."
+        "Create, retrieve, and comment on blog posts with ease."
     ),
     version="1.0.0"
 )
