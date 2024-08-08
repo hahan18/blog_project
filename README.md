@@ -31,6 +31,14 @@ Ensure you have Docker and Docker Compose installed on your machine. You can dow
 - Docker: [Get Docker](https://docs.docker.com/get-docker/)
 - Docker Compose: [Docker Compose](https://docs.docker.com/compose/install/)
 
+### Environment Variables
+
+Create a `.env` file in the root of your project directory with the following content:
+
+```plaintext
+GOOGLE_API_KEY=your_google_api_key_here
+```
+
 ### Local Setup
 
 1. **Clone the repository:**

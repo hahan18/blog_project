@@ -68,9 +68,14 @@ class TestBlogAPI:
 
     @patch('blog.services.requests.post')
     def test_add_comment(self, mock_post, auth_client, create_post, comment_data):
-        # Mock the API response to simulate inappropriate content detection
+        # Mock the API response to simulate sentiment analysis
         mock_post.return_value.status_code = 200
-        mock_post.return_value.json.return_value = {"inappropriate": True}
+        mock_post.return_value.json.return_value = {
+            "documentSentiment": {
+                "score": -0.6,
+                "magnitude": 0.7
+            }
+        }
 
         comment_data["content"] = "This is an inappropriate comment."
         url = f'/api/blog/posts/{create_post.id}/comments'
