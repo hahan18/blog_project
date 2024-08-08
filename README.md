@@ -43,7 +43,7 @@ Ensure you have Docker and Docker Compose installed on your machine. You can dow
     ```bash
     docker-compose up --build
     ```
-   The application will be accessible at `http://localhost:8000`.
+   The application with Swagger UI will be accessible at `http://localhost:8000/api/docs`.
 
 ### API Endpoints
 
@@ -66,7 +66,6 @@ Execute automated tests with coverage by running:
 
 ```bash
 docker-compose exec web coverage run -m pytest
-docker-compose exec web coverage report -m
 ```
 
 ## Authors

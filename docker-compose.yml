@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: blogdb
       POSTGRES_USER: bloguser
       POSTGRES_PASSWORD: blogpass
+    ports:
+      - "5432:5432"
 
   web:
     build: .
@@ -23,6 +25,7 @@ services:
     environment:
       DATABASE_URL: postgres://bloguser:blogpass@db:5432/blogdb
       CELERY_BROKER_URL: redis://redis:6379/0
+      DJANGO_SETTINGS_MODULE: blog_project.settings
 
   redis:
     image: redis:6.0

@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from ninja import Router
+from user_management.auth import get_user_from_token
 from .models import Post, Comment
 from .schemas import PostSchema, CommentSchema, PostResponseSchema
 from .services import moderate_content
@@ -12,10 +13,15 @@ router = Router()
 
 @router.post("/posts", response={200: PostResponseSchema, 400: dict})
 def create_post(request, payload: PostSchema):
+    user = get_user_from_token(request)
+    if not user:
+        return 401, {"error": "Unauthorized"}
+
     if moderate_content(payload.content):
         return 400, {"error": "Content is inappropriate"}
+
     post = Post.objects.create(
-        user=request.user,
+        user=user,
         title=payload.title,
         content=payload.content,
         auto_reply_enabled=payload.auto_reply_enabled,
@@ -43,12 +49,16 @@ def get_posts(request):
 
 @router.post("/posts/{post_id}/comments", response={200: dict, 404: dict})
 def add_comment(request, post_id: int, payload: CommentSchema):
+    user = get_user_from_token(request)
+    if not user:
+        return 401, {"error": "Unauthorized"}
+
     post = get_object_or_404(Post, id=post_id)
     if moderate_content(payload.content):
-        Comment.objects.create(post=post, user=request.user, content=payload.content, is_blocked=True)
+        Comment.objects.create(post=post, user=user, content=payload.content, is_blocked=True)
         return 200, {"success": False, "error": "Comment is inappropriate and has been blocked"}
 
-    comment = Comment.objects.create(post=post, user=request.user, content=payload.content)
+    comment = Comment.objects.create(post=post, user=user, content=payload.content)
 
     if post.auto_reply_enabled:
         send_auto_reply.apply_async(
@@ -61,6 +71,10 @@ def add_comment(request, post_id: int, payload: CommentSchema):
 
 @router.get("/comments-daily-breakdown", response={200: list[dict], 400: dict})
 def get_comments_daily_breakdown(request, date_from: str, date_to: str):
+    user = get_user_from_token(request)
+    if not user:
+        return 401, {"error": "Unauthorized"}
+
     # Analytics on comments within a date range
     try:
         date_from = datetime.strptime(date_from, "%Y-%m-%d")

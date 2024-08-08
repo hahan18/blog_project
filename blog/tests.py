@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 from datetime import datetime
 from unittest.mock import patch
+from user_management.auth import create_jwt
 from .models import Post, Comment
 from .tasks import send_auto_reply
 
@@ -19,8 +20,13 @@ def create_user(db, user_data):
 
 
 @pytest.fixture
-def auth_client(client, create_user, user_data):
-    client.login(username=user_data['username'], password=user_data['password'])
+def auth_client(client, create_user):
+    # Generate JWT token for the created user
+    tokens = create_jwt(create_user)
+    access_token = tokens['access']
+
+    # Add the token to the client's headers
+    client.defaults['HTTP_AUTHORIZATION'] = f'Bearer {access_token}'
     return client
 
 
